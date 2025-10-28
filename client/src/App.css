@@ -1,61 +1,118 @@
-.chat-wrapper {
-  max-width: 700px;
-  margin: 40px auto;
-  font-family: "Inter", sans-serif;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-}
-
-.chat-box {
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 16px;
-  height: 420px;
-  overflow-y: auto;
-  margin: 10px 0 20px 0;
-}
-
-.msg {
-  margin-bottom: 10px;
-}
-
-.msg.user {
-  text-align: right;
-  color: #333;
-}
-
-.msg.assistant {
-  text-align: left;
-  background: #eaf7ea;
-  border-radius: 8px;
-  display: inline-block;
-  padding: 8px;
-}
-
-.input-area {
+body {
+  margin: 0;
+  background-color: #1e1e1e;
+  color: #e5e5e5;
+  font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100vh;
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+.app-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  position: fixed;          /* stays in the corner even when content scrolls */
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 1.33rem;
+  font-weight: 400;         /* unbold text */
+  color: #f1f1f1;
+  opacity: 0.9;
+}
+
+.app-logo .emoji {
+  font-size: 1.8rem;
+}
+
+.app-logo:hover {
+  opacity: 1;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+.chat-area {
+  width: 100%;
+  margin-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 1.8rem;
+  margin: 0;
+  color: #eaeaea;
 }
 
 input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-button {
-  background: #007bff;
-  color: white;
+  background-color: #3a3a3a;
+  color: #e5e5e5;
   border: none;
-  padding: 12px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
+  padding: 1rem 1.5rem;
+  border-radius: 1.5rem;
+  width: 100%;
+  font-size: 1rem;
+  text-align: left;
+  outline: none;
+  transition: background-color 0.2s ease;
 }
 
-button:hover {
-  background: #0056b3;
+input::placeholder {
+  color: #b0b0b0;
+}
+
+input:focus {
+  background-color: #4a4a4a;
+}
+
+.chat-response {
+  background-color: #2a2a2a;
+  border-radius: 1rem;
+  padding: 1rem 1.2rem;
+  font-size: 1rem;
+  color: #d9d9d9;
+  line-height: 1.4;
+}
+
+/* 📱 Responsive for mobile */
+@media (max-width: 600px) {
+  .app-logo {
+    top: 1.2rem;
+    left: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .app-logo .emoji {
+    font-size: 1.8rem;
+  }
+
+  .chat-area {
+    margin-top: 5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  input {
+    font-size: 0.95rem;
+    padding: 0.9rem 1.2rem;
+  }
+
+  .chat-response {
+    font-size: 0.9rem;
+  }
 }

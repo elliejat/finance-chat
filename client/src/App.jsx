@@ -1,51 +1,55 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("");
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-    setLoading(true);
-    const userMsg = { role: "user", content: input };
+  const handleKeyDown = async (e) => {
+    if (e.key === "Enter" && query.trim()) {
+      console.log("Generating prompt:", query);
 
-    const res = await fetch("http://localhost:3001/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: input }),
-    });
+      try {
+        const res = await fetch("http://localhost:3001/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: query }),
+        });
 
-    const data = await res.json();
-    const aiMsg = { role: "assistant", content: data.reply };
-    setMessages((prev) => [...prev, userMsg, aiMsg]);
-    setInput("");
-    setLoading(false);
+        const data = await res.json();
+        setResponse(data.reply || "No response received.");
+      } catch (err) {
+        console.error(err);
+        setResponse("Error connecting to backend.");
+      }
+
+      setQuery(""); // clear input after submission
+    }
   };
 
   return (
-    <div className="chat-wrapper">
-      <h1>💰 Finance Chat</h1>
-
-      <div className="chat-box">
-        {messages.map((m, i) => (
-          <div key={i} className={`msg ${m.role}`}>
-            <strong>{m.role === "user" ? "You" : "FinanceBot"}:</strong>{" "}
-            {m.content}
-          </div>
-        ))}
+    <div className="app-container">
+      <div className="app-logo">
+        <span className="emoji">💰</span>
+        <span className="logo-text">Finn</span>
       </div>
 
-      <div className="input-area">
+      <div className="chat-area">
+        <h1>Ask me a finance question</h1>
+
         <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask about saving, budgeting, or investing..."
+          type="text"
+          placeholder="Type your question and hit Enter..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
-        <button onClick={sendMessage} disabled={loading}>
-          {loading ? "..." : "Send"}
-        </button>
+
+        {response && (
+          <div className="chat-response">
+            <strong>Finn:</strong> {response}
+          </div>
+        )}
       </div>
     </div>
   );
